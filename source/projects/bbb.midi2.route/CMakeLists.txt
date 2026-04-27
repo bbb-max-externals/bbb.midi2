@@ -1,0 +1,5 @@
+bbb_add_external(
+	INCLUDES
+		${BBB_MIDI2_INCLUDE_DIR}
+		${CMIDI2_INCLUDE_DIR}
+)

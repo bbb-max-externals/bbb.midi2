@@ -1,0 +1,40 @@
+{
+    "title": "bbb.midi2",
+    "description": "MIDI 2.0 external object suite for Max/MSP",
+    "author": "ISHII 2bit",
+    "website": "https://github.com/2bbb/bbb.midi2",
+    "extends": "",
+    "extensible": 0,
+    "homepatcher": "",
+    "max_version_min": "8.0",
+    "os": {
+        "macintosh": {
+            "externals": [
+                "externals/"
+            ],
+            "help": [
+                "help/"
+            ]
+        },
+        "windows": {
+            "externals": [
+                "externals/"
+            ],
+            "help": [
+                "help/"
+            ]
+        }
+    },
+    "filelist": {
+        "externals/bbb.midi2.ump.pack.mxo": {},
+        "externals/bbb.midi2.ump.pack.mxe64": {},
+        "externals/bbb.midi2.ump.unpack.mxo": {},
+        "externals/bbb.midi2.ump.unpack.mxe64": {},
+        "externals/bbb.midi2.ump.format.mxo": {},
+        "externals/bbb.midi2.ump.format.mxe64": {},
+        "externals/bbb.midi2.print.mxo": {},
+        "externals/bbb.midi2.print.mxe64": {},
+        "externals/bbb.midi2.route.mxo": {},
+        "externals/bbb.midi2.route.mxe64": {}
+    }
+}

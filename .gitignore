@@ -1,0 +1,11 @@
+build/
+externals/
+*.mxo
+*.mxe64
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+cmake-build-*/
