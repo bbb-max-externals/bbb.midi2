@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  release:
+    types: [published]
 
 jobs:
   build-macos:
@@ -38,3 +40,48 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}-windows
           path: externals/
+
+  package:
+    needs: [build-macos, build-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download macOS externals
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-macos
+          path: dist/${{ github.event.repository.name }}/externals/
+
+      - name: Download Windows externals
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-windows
+          path: dist/${{ github.event.repository.name }}/externals/
+
+      - name: Assemble package
+        run: |
+          PKG="dist/${{ github.event.repository.name }}"
+          cp package-info.json "$PKG/" 2>/dev/null || true
+          cp LICENSE "$PKG/" 2>/dev/null || true
+          cp README.md "$PKG/" 2>/dev/null || true
+          cp -r help "$PKG/" 2>/dev/null || true
+
+      - name: Create archive
+        run: |
+          cd dist
+          zip -r "${{ github.event.repository.name }}.zip" "${{ github.event.repository.name }}/"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-latest
+          path: dist/*.zip
+
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
