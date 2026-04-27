@@ -197,7 +197,7 @@ private:
     void cache_attributes() {
         m_group = static_cast<uint8_t>(group);
         m_channel = core::max_channel_to_ump(channel);
-        m_protocol = (std::string(protocol.get()) == "midi1")
+        m_protocol = (std::string(protocol.get().c_str()) == "midi1")
             ? Protocol::MIDI1 : Protocol::MIDI2;
     }
 

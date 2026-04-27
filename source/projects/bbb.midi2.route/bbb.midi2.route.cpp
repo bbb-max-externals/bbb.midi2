@@ -14,7 +14,7 @@ public:
     bbb_midi2_route(const atoms& args = {}) {
         for (const auto& arg : args) {
             if (arg.a_type == c74::max::A_SYM) {
-                auto name = std::string(static_cast<symbol>(arg));
+                auto name = std::string(static_cast<symbol>(arg).c_str());
                 routes_.push_back(name);
                 outlets_.push_back(new outlet<>(this, "(anything) " + name));
             }
@@ -89,7 +89,7 @@ private:
                 }
             }
         } else if (args[0].a_type == c74::max::A_SYM) {
-            type_str = std::string(static_cast<symbol>(args[0]));
+            type_str = std::string(static_cast<symbol>(args[0]).c_str());
         }
 
         int idx = -1;

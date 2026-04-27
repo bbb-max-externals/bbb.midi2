@@ -90,7 +90,7 @@ public:
 			}
 
 			symbol fmt = format;
-			std::string fmt_str(fmt);
+			std::string fmt_str(fmt.c_str());
 
 			if (fmt_str == "dict") {
 				auto d = bbb::midi2::max::event_to_dict(*ev, compact);
