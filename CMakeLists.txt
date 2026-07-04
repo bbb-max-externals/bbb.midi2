@@ -19,6 +19,8 @@ endif()
 set(BBB_MIDI2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(CMIDI2_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third_party/cmidi2)
 
+option(BBB_MIDI2_BUILD_TESTS "Build bbb.midi2 tests" OFF)
+
 # --- version generation ---
 string(MAKE_C_IDENTIFIER "${PROJECT_NAME}" BBB_PACKAGE_NAME_UPPER)
 string(TOUPPER "${BBB_PACKAGE_NAME_UPPER}" BBB_PACKAGE_NAME_UPPER)
@@ -30,6 +32,16 @@ add_custom_target(generate_version ALL
 		-DVERSION_MACRO="${BBB_VERSION_MACRO}"
 		-P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/generate_version.cmake"
 )
+
+if(BBB_MIDI2_BUILD_TESTS)
+	enable_testing()
+	add_executable(bbb_midi2_core_ump_tests tests/core_ump_tests.cpp)
+	target_include_directories(bbb_midi2_core_ump_tests PRIVATE
+		${BBB_MIDI2_INCLUDE_DIR}
+		${CMIDI2_INCLUDE_DIR}
+	)
+	add_test(NAME bbb_midi2_core_ump_tests COMMAND bbb_midi2_core_ump_tests)
+endif()
 
 # --- auto-discover external projects ---
 MACRO(SUBDIRLIST result curdir)

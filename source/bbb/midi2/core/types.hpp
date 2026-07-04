@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace bbb::midi2::core {
 
 enum class MessageType : uint8_t {
@@ -14,18 +16,23 @@ enum class MessageType : uint8_t {
 };
 
 enum class Status : uint8_t {
-    NoteOff         = 0x8,
-    NoteOn          = 0x9,
-    PolyPressure    = 0xA,
-    ControlChange   = 0xB,
-    ProgramChange   = 0xC,
-    ChannelPressure = 0xD,
-    PitchBend       = 0xE,
+    NoteOff         = 0x80,
+    NoteOn          = 0x90,
+    PolyPressure    = 0xA0,
+    ControlChange   = 0xB0,
+    ProgramChange   = 0xC0,
+    ChannelPressure = 0xD0,
+    PitchBend       = 0xE0,
 };
 
 enum class MIDI2CC : uint8_t {
-    RPN = 0x0, NRPN = 0x1, RelativeRPN = 0x2, RelativeNRPN = 0x3,
-    PerNoteACC = 0x4, PerNoteRCC = 0x5, PerNoteManagement = 0xF,
+    PerNoteRCC = 0x00,
+    PerNoteACC = 0x10,
+    RPN = 0x20,
+    NRPN = 0x30,
+    RelativeRPN = 0x40,
+    RelativeNRPN = 0x50,
+    PerNoteManagement = 0xF0,
 };
 
 enum class Protocol : uint8_t { MIDI1 = 0, MIDI2 = 2, UMP = 0xFF };

@@ -17,10 +17,13 @@ jobs:
           submodules: recursive
 
       - name: Configure
-        run: cmake -B build
+        run: cmake -B build -DBBB_MIDI2_BUILD_TESTS=ON
 
       - name: Build
         run: cmake --build build --config Release
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
 
       - name: Upload externals
         uses: actions/upload-artifact@v7
@@ -36,10 +39,13 @@ jobs:
           submodules: recursive
 
       - name: Configure
-        run: cmake -B build -G "Visual Studio 17 2022" -A x64
+        run: cmake -B build -G "Visual Studio 17 2022" -A x64 -DBBB_MIDI2_BUILD_TESTS=ON
 
       - name: Build
         run: cmake --build build --config Release
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
 
       - name: Upload externals
         uses: actions/upload-artifact@v7
@@ -82,12 +88,29 @@ jobs:
           cd dist
           zip -r "${{ github.event.repository.name }}.zip" "${{ github.event.repository.name }}/"
 
-      - name: Upload artifact (latest)
-        if: github.event_name == 'push'
+      - name: Upload package artifact
         uses: actions/upload-artifact@v7
         with:
           name: ${{ github.event.repository.name }}-latest
           path: dist/*.zip
+
+      - name: Update latest package release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ZIP="dist/${{ github.event.repository.name }}.zip"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f latest "${GITHUB_SHA}"
+          git push origin refs/tags/latest --force
+          if gh release view latest >/dev/null 2>&1; then
+            gh release edit latest --title "Latest package" --notes "Automatically updated from main at ${GITHUB_SHA}."
+            gh release upload latest "$ZIP" --clobber
+          else
+            gh release create latest "$ZIP" --title "Latest package" --notes "Automatically updated from main at ${GITHUB_SHA}." --latest
+          fi
 
       - name: Upload to Release
         if: github.event_name == 'release'
