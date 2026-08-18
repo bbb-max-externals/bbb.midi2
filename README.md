@@ -111,7 +111,7 @@ Route types: `note`, `cc`, `pitch`, `pressure`, `pernote`, `rpn`, `nrpn`, `progr
 ### macOS
 
 ```bash
-git clone --recursive https://github.com/2bbb/bbb.midi2.git
+git clone --recursive https://github.com/bbb-max-externals/bbb.midi2.git
 cd bbb.midi2
 mkdir build && cd build
 cmake ..
@@ -123,7 +123,7 @@ Output: `externals/bbb.midi2.*.mxo` (universal: x86_64 + arm64)
 ### Windows
 
 ```bash
-git clone --recursive https://github.com/2bbb/bbb.midi2.git
+git clone --recursive https://github.com/bbb-max-externals/bbb.midi2.git
 cd bbb.midi2
 mkdir build && cd build
 cmake .. -G "Visual Studio 17 2022" -A x64

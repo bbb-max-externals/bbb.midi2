@@ -2,7 +2,7 @@
     "title": "bbb.midi2",
     "description": "MIDI 2.0 external object suite for Max/MSP",
     "author": "ISHII 2bit",
-    "website": "https://github.com/2bbb/bbb.midi2",
+    "website": "https://github.com/bbb-max-externals/bbb.midi2",
     "extends": "",
     "extensible": 0,
     "homepatcher": "",
