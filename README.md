@@ -1,5 +1,8 @@
 # bbb.midi2
 
+> [!WARNING]
+> This repository is published as AI-assisted, insufficiently tested work in progress ("AI slop"). Treat it as experimental. Correctness, stability, compatibility, and fitness for production use are not guaranteed.
+
 MIDI 2.0 external object suite for Max/MSP. Provides UMP (Universal MIDI Packet) parsing/packing, decoded message inspection, and routing for MIDI 2.0 protocol work in Max.
 
 Built with [min-api](https://github.com/Cycling74/min-api) and [cmidi2](https://github.com/atsushieno/cmidi2).
