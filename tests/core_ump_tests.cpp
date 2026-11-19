@@ -2,6 +2,8 @@
 #include <bbb/midi2/core/types.hpp>
 #include <bbb/midi2/core/ump.hpp>
 
+#include <bbb/midi2/max/pack_values.hpp>
+
 #include <cmath>
 #include <cstdint>
 #include <iostream>
@@ -349,6 +351,35 @@ void test_channel_conversion() {
     expect_equal_int(bbb::midi2::core::ump_to_max_channel(15), 16, "UMP channel 15 maps to Max channel 16");
 }
 
+void test_typed_pack_values() {
+    using namespace bbb::midi2::max;
+    auto check = [](const t_atom& value, uint8_t v7, uint16_t v16, uint32_t v32,
+                    int16_t bend14, int32_t bend32) {
+        expect_equal_int(resolve_uint7(value), v7, "MIDI1 velocity/CC/pressure");
+        expect_equal_int(resolve_velocity(value), v16, "MIDI2 velocity");
+        expect_equal_uint32(resolve_uint32(value), v32, "MIDI2 CC/pressure");
+        expect_equal_int(resolve_pitch_bend_14(value), bend14, "MIDI1 bend delta");
+        expect_equal_int(resolve_pitch_bend_32(value), bend32, "MIDI2 bend delta");
+    };
+    t_atom value{};
+    value.a_type = c74::max::A_FLOAT;
+    value.a_w.w_float = 1.0;
+    check(value, 127, 65535, UINT32_MAX, 8191, INT32_MAX);
+    value.a_w.w_float = 0.0;
+    check(value, 0, 0, 0, 0, 0);
+    value.a_w.w_float = 0.5;
+    check(value, 63, 32767, 2147483647, 4096, 1073741824);
+    value.a_w.w_float = -1.0;
+    check(value, 0, 0, 0, -8192, INT32_MIN);
+    value.a_type = c74::max::A_LONG;
+    value.a_w.w_long = 1;
+    check(value, 1, 1, 1, -8191, INT32_MIN + 1);
+    value.a_w.w_long = 127;
+    check(value, 127, 127, 127, -8065, INT32_MIN + 127);
+    value.a_w.w_long = UINT32_MAX;
+    check(value, 127, 65535, UINT32_MAX, 8191, INT32_MAX);
+}
+
 } // namespace
 
 int main() {
@@ -358,6 +389,7 @@ int main() {
     test_getters_roundtrip();
     test_scaling_boundaries();
     test_channel_conversion();
+    test_typed_pack_values();
 
     if(failure_count != 0) {
         std::cerr << failure_count << " bbb.midi2 core UMP test(s) failed\n";

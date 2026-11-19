@@ -38,6 +38,8 @@ if(BBB_MIDI2_BUILD_TESTS)
 	add_executable(bbb_midi2_core_ump_tests tests/core_ump_tests.cpp)
 	target_include_directories(bbb_midi2_core_ump_tests PRIVATE
 		${BBB_MIDI2_INCLUDE_DIR}
+		${CMAKE_CURRENT_SOURCE_DIR}/deps/min-api/max-sdk-base/c74support
+		${CMAKE_CURRENT_SOURCE_DIR}/deps/min-api/max-sdk-base/c74support/max-includes
 		${CMIDI2_INCLUDE_DIR}
 	)
 	add_test(NAME bbb_midi2_core_ump_tests COMMAND bbb_midi2_core_ump_tests)

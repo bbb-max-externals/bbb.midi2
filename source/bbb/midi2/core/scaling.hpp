@@ -57,8 +57,4 @@ inline constexpr int32_t float_to_pitch_bend_32(float v) {
 inline constexpr uint8_t max_channel_to_ump(int ch) { return static_cast<uint8_t>(ch - 1); }
 inline constexpr int ump_to_max_channel(uint8_t ch) { return static_cast<int>(ch) + 1; }
 
-inline bool atom_is_float(double v) {
-    return std::floor(v) != v || v < 0.0 || v > static_cast<double>(0x7FFFFFFF);
-}
-
 }
