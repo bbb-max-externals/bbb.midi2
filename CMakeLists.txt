@@ -36,6 +36,7 @@ add_custom_target(generate_version ALL
 if(BBB_MIDI2_BUILD_TESTS)
 	enable_testing()
 	add_executable(bbb_midi2_core_ump_tests tests/core_ump_tests.cpp)
+	target_compile_definitions(bbb_midi2_core_ump_tests PRIVATE "$<$<PLATFORM_ID:Windows>:WIN_VERSION;NOMINMAX>")
 	target_include_directories(bbb_midi2_core_ump_tests PRIVATE
 		${BBB_MIDI2_INCLUDE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/deps/min-api/max-sdk-base/c74support
